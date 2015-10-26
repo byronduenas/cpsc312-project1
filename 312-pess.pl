@@ -98,6 +98,26 @@
 % emptied (in clear_db).
 % Answers are also of a fairly simple form and could be more complex,
 % reflecting the structure of the knowledge base.
+
+% abolish(+Name, +Arity)
+%
+% Removes all clauses of a predicate with functor Functor and arity Arity from the database.
+% All predicate attributes (dynamic, multifile, index, etc.) are reset to their defaults.
+% Abolishing an imported predicate only removes the import link; the predicate will keep
+% its old definition in its definition module.
+% According to the ISO standard, abolish/1 can only be applied to dynamic procedures.
+% This is odd, as for dealing with dynamic procedures there is already retract/1 and retractall/1.
+% The abolish/1 predicate was introduced in DEC-10 Prolog precisely for dealing with static procedures.
+% In SWI-Prolog, abolish/1 works on static procedures, unless the Prolog flag iso is set to true.
+
+% dynamic/1
+% Informs the interpreter that the definition of the predicate(s)
+% may change during execution (using assert/1 and/or retract/1)
+
+% nl
+% Write a newline character to the current output stream.
+% On Unix systems nl/0 is equivalent to put(10).
+
 solve :-
         abolish(known,1), dynamic(known/1),
         prove([top_goal(X)], []),
@@ -326,6 +346,15 @@ prepend_attr(attr(Type, Val, _),
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Load rules from the given file (clearing the rule DB first).
+
+% see(+SrcDest)
+% Open SrcDest for reading and make it the current input (see set_input/1).
+% If SrcDest is a stream handle, just make this stream the current input.
+% See the introduction of section 4.16.3 for details.
+
+% seen
+% Close the current input stream. The new input stream becomes user_input.
+
 load_rules(F) :-
         clear_db,
         see(F),
@@ -333,10 +362,10 @@ load_rules(F) :-
         write('rules loaded'),nl,
         seen, !.
 
-% Load rules from default input.
+% Load rules from current input.
 load_rules :-
         read_sentence(L),   % Read a rule.
-%       bug(L),
+        %% bug(L),
         process(L),         % Insert the rule into the DB.
         load_rules.         % Tail recursive loop.
 load_rules :- !.            % Cut avoids backtracking (and re-processing!)
@@ -349,13 +378,28 @@ process(['rule:'|L]) :-     % Found a rule.
         rule(R,L,[]),       % Parse the rule.
         bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
+process(['words:'|L]) :-     % Found words.
+        words(W,L,[]),       % Parse the words.
+        bug(W),             % Print it for debugging.
+        assert_words(W), !. % Assert it (them, potentially) in the DB.
 process(L) :-
         write('trans error on:'),nl,
         write(L),nl.
 
 % Assert a list of rules.
+
+% assertz(+Term)
+% Assert a fact or clause in the database.
+% Term is asserted as the last fact or clause of the corresponding predicate.
+
 assert_rules([]).
 assert_rules([R|Rs]) :- assertz(R), assert_rules(Rs).
+
+assert_words([]).
+assert_words([[W,noun]|Ws]) :- assertz(n(W)), assert_words(Ws).
+assert_words([[W,verb]|Ws]) :- assertz(v(W)), assert_words(Ws).
+assert_words([[W,adjective]|Ws]) :- assertz(adj(W)), assert_words(Ws).
+assert_words([[W,adverb]|Ws]) :- assertz(adv(W)), assert_words(Ws).
 
 % Delete the contents of the database (the rules, not the knowledge).
 % Also establishes the default top goal (to find out what "it" is).
@@ -366,9 +410,9 @@ clear_db :-
         assertz(rule(top_goal(X), [attr(is_a, X, [])])).
 
 % Gloss a rule for debugging output.
-bug(X) :- write('Understood: '), 
-        plain_gloss(X, Text), 
-        write_sentence(Text), nl.
+%% bug(X) :- write('Understood: '), 
+%%         plain_gloss(X, Text), 
+%%         write_sentence(Text), nl.
 bug(X) :- write(X).
 
 %% NOTE: to improve modularity, read_sentence/1 is defined in

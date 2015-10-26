@@ -59,6 +59,14 @@
 % cheap lexical analyzer.)
 
 % Read a sentence (rule).
+
+% peek_char
+% Read the next byte/code/char from the input without removing it.
+% These predicates do not modify the stream's position or end-of-file status.
+% These predicates require a buffered stream (see set_stream/2)
+% and raise a permission error if the stream is unbuffered or the
+% buffer is too small to hold the longest multi-byte sequence that might need to be buffered.
+
 read_sentence(_) :- peek_char(Ch), Ch = 'end_of_file', !, fail.
 read_sentence(S) :- read_sent_helper(S).
 
@@ -174,6 +182,31 @@ big_test_term(X) :- X =
        attr(is_a, worm, [attr(is_like, brown, [])])])].
 
 
+
+
+%%%%%%%%%%%%%%%%%%% grammar for parsing words %%%%%%%%%%%%%%%%%%%
+
+words([H|T]) --> word(H), [and], words(T), !.
+words([H|T]) --> word(H), words(T), !.
+words([H]) --> word(H), !.
+word([X,noun]) --> [X],is_noun, !.
+word([X,adverb]) --> [X],is_adverb, !.
+word([X,adjective]) --> [X],is_adjective, !.
+word([X,verb]) --> [X],is_verb, !.
+is_noun --> [noun], !.
+is_noun --> [is],[noun], !.
+is_noun --> [is],[a],[noun], !.
+is_verb --> [verb], !.
+is_verb --> [is],[verb], !.
+is_verb --> [is],[a],[verb], !.
+is_adverb --> [adverb], !.
+is_adverb --> [is],[adverb], !.
+is_adverb --> [is],[a],[adverb], !.
+is_adverb --> [is],[an],[adverb], !.
+is_adjective --> [adjective], !.
+is_adjective --> [is],[adjective], !.
+is_adjective --> [is],[a],[adjective], !.
+is_adjective --> [is],[an],[adjective], !.
 
 %%%%%%%%%%%%%%%%%%% grammar for parsing rules %%%%%%%%%%%%%%%%%%%
 
@@ -635,6 +668,10 @@ n(pintail).
 n(bird).
 n(throat).
 n(insects).
+n(noun).
+n(verb).
+n(adjective).
+n(adverb).
 
 % Adverbs.
 :- dynamic(adv/1).  % Ensure that the predicate can be modified dynamically
