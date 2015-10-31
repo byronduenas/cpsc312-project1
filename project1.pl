@@ -1,3 +1,6 @@
+%% See full project at
+%% https://github.com/byronduenas/Prolog-Expert-System-Shell
+
 % Import the words.
 :- consult('wn_s.pl').
 % Import the definitions.
@@ -25,6 +28,8 @@ word_line_morph :- read_word(X), morph_chars_bag([_|X],Y), write(Y).
 %% sample command for question #3
 %%
 %% ?- load_rules('first_week_tasks_3.kb').
+%% [[thing,noun]][[lift,verb]][[late,adjective],[project,noun],[silly,adverb],[tired,adjective],[instructor,noun]][[last,adjective],[word,noun]]rules loaded
+%% true.
 %% ?- listing(n).
 %% n(thing).
 %% n(project).
