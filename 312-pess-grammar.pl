@@ -184,25 +184,37 @@ big_test_term(X) :- X =
 
 
 
-%%%%%%%%%%%%%%%%%%% grammar for parsing words %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% First week tasks: grammar for parsing words %%%%%%%%%%%%%%%%%%%
 
+% 'words' all pass up a list of (word,type) tuples
+% 'words' can be a 'word' and 'words' joined by 'and'. 
 words([H|T]) --> word(H), [and], words(T), !.
+% 'words' can be a 'word' and 'words' separated, not separated by anything
 words([H|T]) --> word(H), words(T), !.
+% 'words' can be a single 'word'
 words([H]) --> word(H), !.
+
+% 'word' all pass up a single (word,type) tuple
+% 'word' can be an element followed by 'is_noun','is_adverb','is_adjective', or 'is_verb',
 word([X,noun]) --> [X],is_noun, !.
 word([X,adverb]) --> [X],is_adverb, !.
 word([X,adjective]) --> [X],is_adjective, !.
 word([X,verb]) --> [X],is_verb, !.
+
+% It follows the 'is_noun' pattern if it's "noun", "is noun", or "is a noun"
 is_noun --> [noun], !.
 is_noun --> [is],[noun], !.
 is_noun --> [is],[a],[noun], !.
+% It follows the 'is_verb' pattern if it's "verb", "is verb", or "is a verb"
 is_verb --> [verb], !.
 is_verb --> [is],[verb], !.
 is_verb --> [is],[a],[verb], !.
+% It follows the 'is_adverb' pattern if it's "adverb", "is adverb", "is a adverb", or "is an adverb"
 is_adverb --> [adverb], !.
 is_adverb --> [is],[adverb], !.
 is_adverb --> [is],[a],[adverb], !.
 is_adverb --> [is],[an],[adverb], !.
+% It follows the 'is_adjective' pattern if it's "adjective", "is adjective", "is a adjective", or "is an adjective"
 is_adjective --> [adjective], !.
 is_adjective --> [is],[adjective], !.
 is_adjective --> [is],[a],[adjective], !.

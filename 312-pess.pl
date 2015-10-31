@@ -378,6 +378,9 @@ process(['rule:'|L]) :-     % Found a rule.
         rule(R,L,[]),       % Parse the rule.
         bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
+
+% Modified process to assert rules for words as well
+% Parses a list of words with a head 'words:' and creates word rules for the tail of the list
 process(['words:'|L]) :-     % Found words.
         words(W,L,[]),       % Parse the words.
         bug(W),             % Print it for debugging.
@@ -395,10 +398,15 @@ process(L) :-
 assert_rules([]).
 assert_rules([R|Rs]) :- assertz(R), assert_rules(Rs).
 
+% Iterates through a list (word,type) tuples and turns each tuple into a rule
 assert_words([]).
+% creates a n/1 rules for nouns
 assert_words([[W,noun]|Ws]) :- assertz(n(W)), assert_words(Ws).
+% creates a v/1 rules for verbs
 assert_words([[W,verb]|Ws]) :- assertz(v(W)), assert_words(Ws).
+% creates a adj/1 rules for adjectives
 assert_words([[W,adjective]|Ws]) :- assertz(adj(W)), assert_words(Ws).
+% creates a adv/1 rules for adverbs
 assert_words([[W,adverb]|Ws]) :- assertz(adv(W)), assert_words(Ws).
 
 % Delete the contents of the database (the rules, not the knowledge).
