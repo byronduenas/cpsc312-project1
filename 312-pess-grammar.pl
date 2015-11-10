@@ -59,14 +59,6 @@
 % cheap lexical analyzer.)
 
 % Read a sentence (rule).
-
-% peek_char
-% Read the next byte/code/char from the input without removing it.
-% These predicates do not modify the stream's position or end-of-file status.
-% These predicates require a buffered stream (see set_stream/2)
-% and raise a permission error if the stream is unbuffered or the
-% buffer is too small to hold the longest multi-byte sequence that might need to be buffered.
-
 read_sentence(_) :- peek_char(Ch), Ch = 'end_of_file', !, fail.
 read_sentence(S) :- read_sent_helper(S).
 
@@ -182,43 +174,6 @@ big_test_term(X) :- X =
        attr(is_a, worm, [attr(is_like, brown, [])])])].
 
 
-
-
-%%%%%%%%%%%%%%%%%%% First week tasks: grammar for parsing words %%%%%%%%%%%%%%%%%%%
-
-% 'words' all pass up a list of (word,type) tuples
-% 'words' can be a 'word' and 'words' joined by 'and'. 
-words([H|T]) --> word(H), [and], words(T), !.
-% 'words' can be a 'word' and 'words' separated, not separated by anything
-words([H|T]) --> word(H), words(T), !.
-% 'words' can be a single 'word'
-words([H]) --> word(H), !.
-
-% 'word' all pass up a single (word,type) tuple
-% 'word' can be an element followed by 'is_noun','is_adverb','is_adjective', or 'is_verb',
-word([X,noun]) --> [X],is_noun, !.
-word([X,adverb]) --> [X],is_adverb, !.
-word([X,adjective]) --> [X],is_adjective, !.
-word([X,verb]) --> [X],is_verb, !.
-
-% It follows the 'is_noun' pattern if it's "noun", "is noun", or "is a noun"
-is_noun --> [noun], !.
-is_noun --> [is],[noun], !.
-is_noun --> [is],[a],[noun], !.
-% It follows the 'is_verb' pattern if it's "verb", "is verb", or "is a verb"
-is_verb --> [verb], !.
-is_verb --> [is],[verb], !.
-is_verb --> [is],[a],[verb], !.
-% It follows the 'is_adverb' pattern if it's "adverb", "is adverb", "is a adverb", or "is an adverb"
-is_adverb --> [adverb], !.
-is_adverb --> [is],[adverb], !.
-is_adverb --> [is],[a],[adverb], !.
-is_adverb --> [is],[an],[adverb], !.
-% It follows the 'is_adjective' pattern if it's "adjective", "is adjective", "is a adjective", or "is an adjective"
-is_adjective --> [adjective], !.
-is_adjective --> [is],[adjective], !.
-is_adjective --> [is],[a],[adjective], !.
-is_adjective --> [is],[an],[adjective], !.
 
 %%%%%%%%%%%%%%%%%%% grammar for parsing rules %%%%%%%%%%%%%%%%%%%
 
@@ -680,10 +635,47 @@ n(pintail).
 n(bird).
 n(throat).
 n(insects).
-n(noun).
-n(verb).
-n(adjective).
-n(adverb).
+
+% supplemental vocabulary for the whale knowledge base
+
+n(back).
+n(balaenidae).
+n(balaenopteridae).
+n(balaenopterinae).
+n(band).
+n(beak).
+n(belly).
+n(blowhole).
+n(blowholes).
+n(body).
+n(brain).
+n(delphinidae).
+n(eschrichtiidae).
+n(family).
+n(feeder).
+n(fin).
+n(flippers).
+n(flukes).
+n(grooves).
+n(head).
+n(jaw).
+n(kogiidae).
+n(megapterinae).
+n(monodontidae).
+n(mysticeti).
+n(neobalaenidae).
+n(odontoceti).
+n(phocoenidae).
+n(physeteridae).
+n(platanistidae).
+n(plates).
+n(sac).
+n(spout).
+n(subfamily).
+n(suborder).
+n(teeth).
+n(tusk).
+n(zipihiidae).
 
 % Adverbs.
 :- dynamic(adv/1).  % Ensure that the predicate can be modified dynamically
@@ -696,6 +688,10 @@ adv(ponderously).
 adv(powerfully).
 adv(agilely).
 adv(mottled).
+
+% supplemental vocabulary for the whale knowledge base
+
+adv(can).
 
 % Adjectives.
 :- dynamic(adj/1).  % Ensure that the predicate can be modified dynamically
@@ -734,6 +730,43 @@ adj('v-shaped').
 adj(rusty).
 adj(square).
 
+% supplemental vocabulary for the whale knowledge base
+
+adj(arched).
+adj(asymmetrical).
+adj(baleen).
+adj(blunt).
+adj(bottom).
+adj(bowed).
+adj(colouration).
+adj(coloured).
+adj(conical).
+adj(curious).
+adj(docile).
+adj(dorsal).
+adj(elongated).
+adj(falcate).
+adj(frosted).
+adj(gray).
+adj(grey).
+adj(ink).
+adj(large).
+adj(light).
+adj(long).
+adj(no).
+adj(one).
+adj(short).
+adj(single).
+adj(small).
+adj(square).
+adj(streamlined).
+adj(tall).
+adj(throat).
+adj(triangular).
+adj(two).
+adj(upright).
+adj(white).
+
 % Doing verbs (i.e., not is/are or has/have/contains/contain).
 :- dynamic(v/1).  % Ensure that the predicate can be modified dynamically
 
@@ -745,3 +778,13 @@ v(scavenges).
 v(quacks).
 v(summers).
 v(winters).
+
+% supplemental vocabulary for the whale knowledge base
+
+v(spin).
+
+
+
+
+
+

@@ -1,0 +1,223 @@
+rule:
+if   it has teeth and
+     it has one blowhole
+then its suborder is odontoceti.
+
+rule:
+if   it has baleen plates and
+     it has two blowholes
+then its suborder is mysticeti.
+
+rule:
+if   its suborder is odontoceti and
+     it has a large head
+then its family is physeteridae.
+
+rule:
+if   its suborder is odontoceti and
+     it has an ink sac
+then its family is kogiidae.
+
+rule:
+if   its suborder is odontoceti and
+     it has an elongated beak
+then its family is zipihiidae.
+
+rule:
+if   its suborder is odontoceti and
+     it has a falcate dorsal fin
+then its family is delphinidae.
+
+rule:
+if   its suborder is odontoceti and
+     it has a blunt head
+then its family is monodontidae.
+
+rule:
+if   its suborder is odontoceti and
+     it has a light coloured beak
+then its family is platanistidae.
+
+rule:
+if   its suborder is mysticeti and
+     it is a bottom feeder
+then its family is eschrichtiidae.
+
+rule:
+if   its suborder is mysticeti and
+     it has throat grooves
+then its family is balaenopteridae.
+
+rule:
+if   its suborder is odontoceti and
+     it has a triangular dorsal fin
+then its family is phocoenidae.
+
+rule:
+if   its suborder is mysticeti and
+     it has an arched jaw
+then its family is balaenidae.
+
+rule:
+if   its suborder is mysticeti and
+     it has a bowed head
+then its family is neobalaenidae.
+
+
+rule:
+if   its family is balaenopteridae and
+     it has a streamlined body
+then its subfamily is balaenopterinae.
+
+rule:
+if   its family is balaenopteridae and
+     it has long flippers
+then its subfamily is megapterinae.
+
+
+rule:
+if   its family is physeteridae
+then it is a "n:sperm whale".
+
+rule:
+if   its family is kogiidae and
+     it feeds "n:in coastal waters"
+then it is a "n:pygmy sperm whale".
+
+rule:
+if   its family is kogiidae and
+     it feeds "n:in deep water"
+then it is a "n:dwarf sperm whale".
+
+rule:
+if   its family is zipihiidae and
+     it feeds "n:in the north pacific" and
+     it has a long beak
+then it is a "n:baird's beaked whale".
+
+rule:
+if   its family is zipihiidae and
+     it feeds "n:in the north atlantic" and
+     it has a small dorsal fin
+then it is a "n:northern bottlenose whale".
+
+rule:
+if   its family is zipihiidae and
+     it feeds "n:in the southern hemisphere" and
+     it has large teeth
+then it is a "n:strap-toothed whale".
+
+rule:
+if   its family is delphinidae and
+     it has a large brain and
+     it has conical teeth
+then it is a "n:bottlenose dolphin".
+
+rule:
+if   its family is delphinidae and
+     it has a white belly and
+     it has a grey back
+then it is a "n:common dolphin".
+
+rule:
+if   its family is delphinidae and
+     it is large and
+     it is "n:black and white"
+then it is a "n:killer whale".
+
+rule:
+if   its family is delphinidae and
+     it feeds "n:in coastal waters" and
+     it can spin
+then it is a "n:spinner dolphin".
+
+rule:
+if   its family is monodontidae and
+     it feeds "n:in the arctic" and
+     it has square flippers
+then it is a "n:beluga whale".
+
+rule:
+if   its family is monodontidae and
+     it feeds "n:in the arctic" and
+     it has a tusk
+then it is a "n:narwhal".
+
+rule:
+if   its family is platanistidae and
+     it feeds "n:in the amazon"
+then it is a "n:amazon river dolphin".
+
+rule:
+if   its family is platanistidae and
+     it feeds "n:in the indus river"
+then it is a "n:indus river dolphin".
+
+rule:
+if   its family is phocoenidae and
+     it feeds "n:in the north atlantic" and
+     it has frosted flukes
+then it is a "n:dall's porpoise".
+
+rule:
+if   its family is phocoenidae and
+     it feeds "n:in coastal waters" and
+     it has a short beak
+then it is a "n:harbour porpoise".
+
+rule:
+if   its family is phocoenidae and
+     it feeds "n:in antarctic waters" and
+     it has a short beak
+then it is a "n:spectacled porpoise".
+
+rule:
+if   its family is eschrichtiidae
+then it is a "n:gray whale".
+
+rule:
+if   its subfamily is balaenopterinae and
+     it is very large and
+     it has a long body
+then it is a "n:blue whale".
+
+rule:
+if   its subfamily is balaenopterinae and
+     it is very long
+then it is a "n:bryde's whale".
+
+rule:
+if   its subfamily is balaenopterinae and
+     it has a tall spout
+then it is a "n:fin whale".
+
+rule:
+if   its subfamily is balaenopterinae and
+     it has a white band
+then it is a "n:minke whale".
+
+rule:
+if   its subfamily is megapterinae
+then it is a "n:humpback whale".
+
+rule:
+if   its family is balaenidae and
+     it feeds "n:in arctic waters" and
+     it has no dorsal fin
+then it is a "n:bowhead whale".
+
+rule:
+if   its family is balaenidae and
+     it feeds "n:in the north atlantic" and
+     it is docile
+then it is a "n:north atlantic right whale".
+
+rule:
+if   its family is balaenidae and
+     it feeds "n:in the southern hemisphere" and
+     it is curious
+then it is a "n:southern right whale".
+
+rule:
+if   its family is neobalaenidae
+then it is a "n:pygmy right whale".
