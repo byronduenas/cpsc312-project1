@@ -680,10 +680,47 @@ n(pintail).
 n(bird).
 n(throat).
 n(insects).
-n(noun).
-n(verb).
-n(adjective).
-n(adverb).
+
+% supplemental vocabulary for the whale knowledge base
+
+n(back).
+n(balaenidae).
+n(balaenopteridae).
+n(balaenopterinae).
+n(band).
+n(beak).
+n(belly).
+n(blowhole).
+n(blowholes).
+n(body).
+n(brain).
+n(delphinidae).
+n(eschrichtiidae).
+n(family).
+n(feeder).
+n(fin).
+n(flippers).
+n(flukes).
+n(grooves).
+n(head).
+n(jaw).
+n(kogiidae).
+n(megapterinae).
+n(monodontidae).
+n(mysticeti).
+n(neobalaenidae).
+n(odontoceti).
+n(phocoenidae).
+n(physeteridae).
+n(platanistidae).
+n(plates).
+n(sac).
+n(spout).
+n(subfamily).
+n(suborder).
+n(teeth).
+n(tusk).
+n(zipihiidae).
 
 % Adverbs.
 :- dynamic(adv/1).  % Ensure that the predicate can be modified dynamically
@@ -696,6 +733,10 @@ adv(ponderously).
 adv(powerfully).
 adv(agilely).
 adv(mottled).
+
+% supplemental vocabulary for the whale knowledge base
+
+adv(can).
 
 % Adjectives.
 :- dynamic(adj/1).  % Ensure that the predicate can be modified dynamically
@@ -734,6 +775,43 @@ adj('v-shaped').
 adj(rusty).
 adj(square).
 
+% supplemental vocabulary for the whale knowledge base
+
+adj(arched).
+adj(asymmetrical).
+adj(baleen).
+adj(blunt).
+adj(bottom).
+adj(bowed).
+adj(colouration).
+adj(coloured).
+adj(conical).
+adj(curious).
+adj(docile).
+adj(dorsal).
+adj(elongated).
+adj(falcate).
+adj(frosted).
+adj(gray).
+adj(grey).
+adj(ink).
+adj(large).
+adj(light).
+adj(long).
+adj(no).
+adj(one).
+adj(short).
+adj(single).
+adj(small).
+adj(square).
+adj(streamlined).
+adj(tall).
+adj(throat).
+adj(triangular).
+adj(two).
+adj(upright).
+adj(white).
+
 % Doing verbs (i.e., not is/are or has/have/contains/contain).
 :- dynamic(v/1).  % Ensure that the predicate can be modified dynamically
 
@@ -745,3 +823,13 @@ v(scavenges).
 v(quacks).
 v(summers).
 v(winters).
+
+% supplemental vocabulary for the whale knowledge base
+
+v(spin).
+
+
+
+
+
+
