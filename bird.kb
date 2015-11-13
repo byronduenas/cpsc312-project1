@@ -172,3 +172,8 @@ if   its family is swallow and
      it is dark 
 then it is a "n:purple martin".
 
+rule:
+if   it is brown and
+     it is a swan
+then it is a brown swan.
+

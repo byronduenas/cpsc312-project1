@@ -182,6 +182,9 @@ big_test_term(X) :- X =
        attr(is_a, worm, [attr(is_like, brown, [])])])].
 
 
+%%%%% Parsing Goals %%%%%%
+
+goals(G).
 
 
 %%%%%%%%%%%%%%%%%%% First week tasks: grammar for parsing words %%%%%%%%%%%%%%%%%%%

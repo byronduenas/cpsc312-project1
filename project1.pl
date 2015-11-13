@@ -22,6 +22,64 @@ definition(Word, Definition) :- s(SynsetId,_,Word,_,_,_), g(SynsetId, Definition
 %% true .
 word_line_morph :- read_word(X), morph_chars_bag([_|X],Y), write(Y).
 
+adv(W) :- morph(W,M), s(_,_,M,r,_,_).
+adj(W) :- morph(W,M), s(_,_,M,s,_,_).
+adj(W) :- morph(W,M), s(_,_,M,a,_,_).
+n(W) :- morph(W,M), s(_,_,M,n,_,_).
+v(W) :- morph(W,M), s(_,_,M,v,_,_).
+morph(W,M) :- morph_atoms([W], [[M|_]|_]).
+
+go :-
+greeting, 
+repeat, 
+write('> '), 
+read(X), 
+do(X), 
+X == quit.
+
+greeting :-
+write('This is the Native Prolog shell.'), nl, 
+write('Enter load, consult, or quit at the prompt.'), nl.
+
+do(load) :- load_kb, !.
+
+do(goal) :- goal, !.
+
+do(solve) :- solve, !.
+
+do(help) :- help, !.
+
+do(rule) :- add_rule, !.
+
+do(quit).
+
+add_rule :-
+write('Enter a new rule followed by a period: '),
+read_sentence(X),
+process(['rule:'|X]),
+nl,
+write('Rule loaded'),
+nl.
+
+do(X) :-
+write(X), 
+write('is not a legal command.'), nl, 
+fail.
+
+load_kb :-
+write('Enter file name: '), 
+read(F), 
+load_rules(F).
+
+goal :-
+write('Enter the new goal, followed by a period: '), 
+set_top_goal(F),
+write('Understood goal: '),
+write_sentence(F),nl.
+
+help :-
+write('Type help. load. solve. or quit. at the prompt. Notice the period after each command!'), nl.
+
 %% sample command for question #3
 %%
 %% ?- load_rules('first_week_tasks_3.kb').

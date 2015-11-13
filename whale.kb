@@ -77,7 +77,7 @@ then its subfamily is megapterinae.
 
 rule:
 if   its family is physeteridae
-then it is a "n:sperm whale".
+then it is "n:sperm whale".
 
 rule:
 if   its family is kogiidae and
@@ -221,3 +221,19 @@ then it is a "n:southern right whale".
 rule:
 if   its family is neobalaenidae
 then it is a "n:pygmy right whale".
+
+rule:
+if   it feeds
+then it feeds "n:in coastal waters".
+
+rule:
+if   it is long
+then it is a long "n:pygmy right whale".
+
+rule:
+if   it is pointed
+then it is a hooked "n:fin whale".
+
+rule:
+if   it is a "n:pygmy right whale"
+then it has a tail

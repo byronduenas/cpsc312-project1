@@ -121,7 +121,7 @@
 solve :-
         abolish(known,1), dynamic(known/1),
         prove([top_goal(X)], []),
-        write('The answer is '),write(X),nl.
+        write('The answer is: '),plain_gloss(X,Y), write_sentence(Y),nl.
 solve :-
         write('No answer found.'),nl.
 
@@ -376,15 +376,19 @@ load_rules :- !.            % Cut avoids backtracking (and re-processing!)
 process([]) :- !.           % Ignore empty rules.
 process(['rule:'|L]) :-     % Found a rule.
         rule(R,L,[]),       % Parse the rule.
-        bug(R),             % Print it for debugging.
+        %% bug(R),             % Print it for debugging.
         assert_rules(R), !. % Assert it (them, potentially) in the DB.
 
 % Modified process to assert rules for words as well
 % Parses a list of words with a head 'words:' and creates word rules for the tail of the list
 process(['words:'|L]) :-     % Found words.
         words(W,L,[]),       % Parse the words.
-        bug(W),             % Print it for debugging.
+        %% bug(W),             % Print it for debugging.
         assert_words(W), !. % Assert it (them, potentially) in the DB.
+
+process(['goal:'|L]) :-
+        goals(G, L, []), !.
+
 process(L) :-
         write('trans error on:'),nl,
         write(L),nl.
@@ -415,7 +419,27 @@ clear_db :-
         abolish(rule,2),
         dynamic(rule/2),
         %% For now, top_goal is set manually.
-        assertz(rule(top_goal(X), [attr(is_a, X, [])])).
+        assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])).
+         %% assertz(rule(top_goal([attr(does, X, L)]), [attr(does, X, L)])).
+        %% assertz(rule(top_goal([attr(is_a, swan, [attr(is_like, 'brown', [])])]), [attr(is_a, swan, [attr(is_like, brown, [])])])).
+
+set_top_goal(D) :- retract(rule(top_goal(_), _)), !, set_top_goal_helper(D).
+set_top_goal(D) :- set_top_goal_helper(D), ! .
+set_top_goal_helper(D) :- read_sentence(B), set_top_goal(C,B), plain_gloss(C,D).
+
+set_top_goal(C, B) :- B = [what,is,it], C = [attr(is_a, what, [])], assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])), !. 
+set_top_goal(C, B) :- B = [what,does,it,have], C = [attr(has_a, what, [])], assertz(rule(top_goal([attr(has_a, X, [])]), [attr(has_a, X, [])])), !. 
+set_top_goal(C, B) :- B = [what,does,it,X], C = [attr(does, X, what)], assertz(rule(top_goal([attr(does, X, T)]), [attr(does, X, T)])), !.
+set_top_goal(C, B) :- B = [it,is,a,X,what], C = [attr(is_a,what,[attr(is_like,X,[])])], assertz(rule(top_goal([attr(is_a,N,[attr(is_like,X,[])])]), [attr(is_a,N,[attr(is_like,X,[])])])), !.
+set_top_goal(A, B) :- B = [is,it|T], sentence(A,[it,is|T],[]), assertz(rule(top_goal(A), A)), !.
+set_top_goal(A, B) :- B = [does,it|T], sentence(A,[it|T],[]), assertz(rule(top_goal(A), A)), !.
+set_top_goal(A, B) :- sentence(A,B,[]), assertz(rule(top_goal(A), A)), !.
+
+
+
+
+
+%% set_top_goal(G) :- .
 
 % Gloss a rule for debugging output.
 %% bug(X) :- write('Understood: '), 
