@@ -73,6 +73,8 @@ do(solve) :- solve, !.
 
 do(rule) :- add_rule, !.
 
+do(list) :- list_rules, !.
+
 do(help) :- help, !.
 
 do(quit).
@@ -100,6 +102,33 @@ read_sentence(X),
 add_unknown_words(X),
 process(['rule:'|X]), nl,
 write('Rule loaded'), nl.
+% check line 444 in 312-pess
+
+list_rules :-
+write('Loaded rules:'), nl,
+list_rules_helper.
+
+% If rules are loaded.
+list_rules_helper :-
+current_predicate(rule/2),
+list_rules_exist.
+
+% If rules are not loaded.
+list_rules_helper :-
+not(current_predicate(rule/2)),
+write('No rules are loaded.'), nl.
+
+% Write each rule that exists that is not the top goal.
+list_rules_exist :-
+rule(X,Y),
+X \= top_goal(_),
+plain_gloss([rule(X,Y)], T),
+write_sentence(T), nl,
+fail.
+
+list_rules_exist :-
+rule(X,_),
+X = top_goal(_).
 
 help :-
 write('Type help. load. goal. solve. rule. or quit. at the prompt. Notice the period after each command!'), nl.
