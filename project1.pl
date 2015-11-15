@@ -49,7 +49,7 @@ add_word(_).
 %% Interpreter loop                                             %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-go :-
+main :-
 greeting,
 repeat,
 write('> '),
