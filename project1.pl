@@ -36,6 +36,20 @@ read(X),
 do(X), 
 X == quit.
 
+verb(W) :- morph(W,M), s(_,_,M,v,_,_), assertz(v(W)).
+noun(W) :- morph(W,M), s(_,_,M,n,_,_), assertz(n(W)).
+adverb(W) :- morph(W,M), s(_,_,M,r,_,_), assertz(adv(W)).
+adjective(W) :- morph(W,M), s(_,_,M,s,_,_), assertz(adj(W)).
+adjective(W) :- morph(W,M), s(_,_,M,a,_,_), assertz(adj(W)).
+
+add_unknown_words([]).
+add_unknown_words([Head|Tail]) :- add_word(Head), add_unknown_words(Tail).
+add_word(W) :- \+v(W), verb(W).
+add_word(W) :- \+n(W), noun(W).
+add_word(W) :- \+adv(W), adverb(W).
+add_word(W) :- \+adj(W), adjective(W).
+add_word(_).
+
 greeting :-
 write('This is the Native Prolog shell.'), nl, 
 write('Enter load, consult, or quit at the prompt.'), nl.
@@ -60,6 +74,7 @@ fail.
 add_rule :-
 write('Enter a new rule followed by a period: '),
 read_sentence(X),
+add_unknown_words(X),
 process(['rule:'|X]),
 nl,
 write('Rule loaded'),
