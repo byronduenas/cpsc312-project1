@@ -85,7 +85,8 @@ fail.
 load_kb :-
 write('Enter file name in single quotes, followed by a period: '),
 read(X),
-load_rules(X).
+load_rules(X),
+write('Understood: '), nl.      %% TODO: Output all loaded rules.
 
 goal :-
 write('Enter the new goal, followed by a period: '),
