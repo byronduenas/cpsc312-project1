@@ -2,11 +2,14 @@
 :- discontiguous(s/6).
 :- discontiguous(s/4).
 :- consult('wn_s.pl').
+
 % Import the definitions.
 :- consult('wn_g').
+
 % Import the pronto morph engine.
 :- consult('pronto_morph_engine').
 
+% Import the 312 Prolog Expert System Shell
 :- consult('312-pess').
 
 
