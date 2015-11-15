@@ -31,14 +31,6 @@ word_line_morph :- read_word(X), morph_chars_bag([_|X],Y), write(Y).
 
 morph(W,M) :- morph_atoms([W], [[M|_]|_]).
 
-go :-
-greeting, 
-repeat, 
-write('> '), 
-read(X), 
-do(X), 
-X == quit.
-
 verb(W) :- morph(W,M), s(_,_,M,v,_,_), assertz(v(W)).
 noun(W) :- morph(W,M), s(_,_,M,n,_,_), assertz(n(W)).
 adverb(W) :- morph(W,M), s(_,_,M,r,_,_), assertz(adv(W)).
@@ -53,9 +45,23 @@ add_word(W) :- \+adv(W), adverb(W).
 add_word(W) :- \+adj(W), adjective(W).
 add_word(_).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Interpreter loop                                             %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+go :-
+greeting,
+repeat,
+write('> '),
+read(X),
+do(X),
+X == quit.
+
+%%%%%%%%%%%%%%%%%%% Commands %%%%%%%%%%%%%%%%%%%%%%%%%%
+
 greeting :-
-write('This is the Native Prolog shell.'), nl, 
-write('Enter load, consult, or quit at the prompt.'), nl.
+write('This is the Native Prolog shell.'), nl,
+write('Enter load, goal, solve, rule, help, or quit at the prompt.'), nl.
 
 do(load) :- load_kb, !.
 
@@ -63,55 +69,34 @@ do(goal) :- goal, !.
 
 do(solve) :- solve, !.
 
-do(help) :- help, !.
-
 do(rule) :- add_rule, !.
+
+do(help) :- help, !.
 
 do(quit).
 
 do(X) :-
-write(X), 
-write('is not a legal command.'), nl, 
+write(X),
+write(' is not a legal command.'), nl,
 fail.
 
-add_rule :-
-write('Enter a new rule followed by a period: '),
-read_sentence(X),
-add_unknown_words(X),
-process(['rule:'|X]),
-nl,
-write('Rule loaded'),
-nl.
-
 load_kb :-
-write('Enter file name: '), 
-read(F), 
-load_rules(F).
+write('Enter file name in single quotes, followed by a period: '),
+read(X),
+load_rules(X).
 
 goal :-
-write('Enter the new goal, followed by a period: '), 
-set_top_goal(F),
+write('Enter the new goal, followed by a period: '),
+set_top_goal(X),
 write('Understood goal: '),
-write_sentence(F),nl.
+write_sentence(X), nl.
+
+add_rule :-
+write('Enter a new rule, followed by a period: '),
+read_sentence(X),
+add_unknown_words(X),
+process(['rule:'|X]), nl,
+write('Rule loaded'), nl.
 
 help :-
-write('Type help. load. solve. or quit. at the prompt. Notice the period after each command!'), nl.
-
-%% sample command for question #3
-%%
-%% ?- load_rules('first_week_tasks_3.kb').
-%% ?- listing(n).
-%% n(thing).
-%% n(project).
-%% n(instructor).
-%% n(word).
-%% true
-%% ?- listing(v).
-%% v(lift).
-%% true.
-%% ?- listing(adj).
-%% adj(late).
-%% adj(tired).
-%% adj(last).
-%% ?- listing(adv).
-%% adv(silly).
+write('Type help. load. goal. solve. rule. or quit. at the prompt. Notice the period after each command!'), nl.
