@@ -1,4 +1,6 @@
 % Import the words.
+:- discontiguous(s/6).
+:- discontiguous(s/4).
 :- consult('wn_s.pl').
 % Import the definitions.
 :- consult('wn_g').
@@ -6,6 +8,8 @@
 :- consult('pronto_morph_engine').
 
 :- consult('312-pess').
+
+
 
 %% Pass a word atom in the first argument and second argument returns the corresponding definition(s)
 %%
@@ -22,11 +26,6 @@ definition(Word, Definition) :- s(SynsetId,_,Word,_,_,_), g(SynsetId, Definition
 %% true .
 word_line_morph :- read_word(X), morph_chars_bag([_|X],Y), write(Y).
 
-adv(W) :- morph(W,M), s(_,_,M,r,_,_).
-adj(W) :- morph(W,M), s(_,_,M,s,_,_).
-adj(W) :- morph(W,M), s(_,_,M,a,_,_).
-n(W) :- morph(W,M), s(_,_,M,n,_,_).
-v(W) :- morph(W,M), s(_,_,M,v,_,_).
 morph(W,M) :- morph_atoms([W], [[M|_]|_]).
 
 go :-
@@ -53,6 +52,11 @@ do(rule) :- add_rule, !.
 
 do(quit).
 
+do(X) :-
+write(X), 
+write('is not a legal command.'), nl, 
+fail.
+
 add_rule :-
 write('Enter a new rule followed by a period: '),
 read_sentence(X),
@@ -60,11 +64,6 @@ process(['rule:'|X]),
 nl,
 write('Rule loaded'),
 nl.
-
-do(X) :-
-write(X), 
-write('is not a legal command.'), nl, 
-fail.
 
 load_kb :-
 write('Enter file name: '), 

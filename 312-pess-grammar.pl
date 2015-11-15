@@ -181,12 +181,6 @@ big_test_term(X) :- X =
                                       [attr(is_how, very, [])])])]), 
        attr(is_a, worm, [attr(is_like, brown, [])])])].
 
-
-%%%%% Parsing Goals %%%%%%
-
-goals(G).
-
-
 %%%%%%%%%%%%%%%%%%% First week tasks: grammar for parsing words %%%%%%%%%%%%%%%%%%%
 
 % 'words' all pass up a list of (word,type) tuples
@@ -724,6 +718,7 @@ n(suborder).
 n(teeth).
 n(tusk).
 n(zipihiidae).
+n(W) :- morph(W,M), s(_,_,M,n,_,_).
 
 % Adverbs.
 :- dynamic(adv/1).  % Ensure that the predicate can be modified dynamically
@@ -740,6 +735,7 @@ adv(mottled).
 % supplemental vocabulary for the whale knowledge base
 
 adv(can).
+adv(W) :- morph(W,M), s(_,_,M,r,_,_).
 
 % Adjectives.
 :- dynamic(adj/1).  % Ensure that the predicate can be modified dynamically
@@ -814,6 +810,8 @@ adj(triangular).
 adj(two).
 adj(upright).
 adj(white).
+adj(W) :- morph(W,M), s(_,_,M,s,_,_), !.
+adj(W) :- morph(W,M), s(_,_,M,a,_,_), !.
 
 % Doing verbs (i.e., not is/are or has/have/contains/contain).
 :- dynamic(v/1).  % Ensure that the predicate can be modified dynamically
@@ -830,7 +828,7 @@ v(winters).
 % supplemental vocabulary for the whale knowledge base
 
 v(spin).
-
+v(W) :- morph(W,M), s(_,_,M,v,_,_).
 
 
 

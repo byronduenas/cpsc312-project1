@@ -387,7 +387,7 @@ process(['words:'|L]) :-     % Found words.
         assert_words(W), !. % Assert it (them, potentially) in the DB.
 
 process(['goal:'|L]) :-
-        goals(G, L, []), !.
+        goals(_, L, []), !.
 
 process(L) :-
         write('trans error on:'),nl,
