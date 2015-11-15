@@ -60,8 +60,10 @@ X == quit.
 %%%%%%%%%%%%%%%%%%% Commands %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 greeting :-
-write('This is the Native Prolog shell.'), nl,
-write('Enter load, goal, solve, rule, help, or quit at the prompt.'), nl.
+write('This is the CPSC312 Prolog Expert System Shell.'), nl,
+write('Based on Amzi\'s "native Prolog shell".'), nl,
+write('Type help, load, goal, solve, rule, or quit at the prompt.'), nl,
+write('Notice the period after each command!'), nl.
 
 do(load) :- load_kb, !.
 
