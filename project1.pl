@@ -93,7 +93,7 @@ write('Enter file name in single quotes, followed by a period: '),
 read(X),
 load_rules(X),
 write('Understood: '), nl,
-list_rules_helper,
+list_rules,
 write('Rules loaded, goal set to "what is it".'), nl.
 
 goal :-
@@ -125,23 +125,19 @@ process(['rule:'|X]),
 write('Understood rule: '),
 write_sentence(X), nl.
 
-%% TODO: rename to be the same
-list_rules :-
-list_rules_helper.
-
 % If rule/2 are loaded and the rule that exists is not the top goal rule.
-list_rules_helper :-
+list_rules :-
 current_predicate(rule/2),
 rule(X,_),
 X \= top_goal(_),
 list_rules_exist.
 
 % Fall back when the only rule/2 loaded is the top goal rule.
-list_rules_helper :-
+list_rules :-
 write('No rules are loaded'), nl.
 
 % If no rule/2 are loaded.
-list_rules_helper :-
+list_rules :-
 not(current_predicate(rule/2)),
 write('No rules are loaded.'), nl.
 
