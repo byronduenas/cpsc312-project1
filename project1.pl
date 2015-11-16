@@ -62,7 +62,7 @@ X == quit.
 greeting :-
 write('This is the CPSC312 Prolog Expert System Shell.'), nl,
 write('Based on Amzi\'s "native Prolog shell".'), nl,
-write('Type help, load, goal, solve, rule, or quit at the prompt.'), nl,
+write('Type help, load, goal, solve, rule, list, or quit at the prompt.'), nl,
 write('Notice the period after each command!'), nl.
 
 do(load) :- load_kb, !.
@@ -131,4 +131,4 @@ rule(X,_),
 X = top_goal(_).
 
 help :-
-write('Type help. load. goal. solve. rule. or quit. at the prompt. Notice the period after each command!'), nl.
+write('Type help. load. goal. solve. rule. list. or quit. at the prompt. Notice the period after each command!'), nl.
