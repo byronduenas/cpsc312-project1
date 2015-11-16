@@ -109,16 +109,23 @@ process(['rule:'|X]),
 write('Understood rule: '),
 write_sentence(X), nl.
 
+%% TODO: rename to be the same
 list_rules :-
-write('Loaded rules:'), nl,
 list_rules_helper.
 
-% If rules are loaded.
+% If rule/2 are loaded and the rule that exists is not the top goal rule.
 list_rules_helper :-
 current_predicate(rule/2),
+rule(X,_),
+X \= top_goal(_),
+write('Loaded rules:'), nl,
 list_rules_exist.
 
-% If rules are not loaded.
+% Fall back when the only rule/2 loaded is the top goal rule.
+list_rules_helper :-
+write('No rules are loaded'), nl.
+
+% If no rule/2 are loaded.
 list_rules_helper :-
 not(current_predicate(rule/2)),
 write('No rules are loaded.'), nl.
