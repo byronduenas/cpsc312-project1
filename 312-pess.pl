@@ -426,6 +426,7 @@ clear_db :-
 set_top_goal(D) :- retract(rule(top_goal(_), _)), !, set_top_goal_helper(D).
 set_top_goal(D) :- set_top_goal_helper(D), ! .
 set_top_goal_helper(D) :- read_sentence(B), add_unknown_words(B), set_top_goal(C,B), plain_gloss(C,D).
+set_top_goal_helper(D) :- assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])), fail.
 
 set_top_goal(C, B) :- B = [what,is,it], C = [attr(is_a, what, [])], assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])), !. 
 set_top_goal(C, B) :- B = [what,the,heck,is,'THAT'], C = [attr(is_a, what, [])], assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])), !. 

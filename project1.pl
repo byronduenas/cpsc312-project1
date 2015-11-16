@@ -93,13 +93,18 @@ write('Enter file name in single quotes, followed by a period: '),
 read(X),
 load_rules(X),
 write('Understood: '), nl,
-list_rules_helper.
+list_rules_helper,
+write('Rules loaded, goal set to "what is it".'), nl.
 
 goal :-
 write('Enter the new goal, followed by a period: '),
 set_top_goal(X),
 write('Understood goal: '),
 write_sentence(X), nl.
+
+% Fall back to the default gaol when the entered rule is invalid.
+goal :-
+write('Unable to understand goal, goal set to "what is it".'), nl.
 
 % If rule/2 are loaded and the rule that exists is not the top goal rule.
 solve_helper :-
