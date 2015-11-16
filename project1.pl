@@ -57,7 +57,9 @@ read(X),
 do(X),
 X == quit.
 
-%%%%%%%%%%%%%%%%%%% Commands %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Commands                                                     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 greeting :-
 write('This is the CPSC312 Prolog Expert System Shell.'), nl,
@@ -83,6 +85,8 @@ do(X) :-
 write(X),
 write(' is not a legal command.'), nl,
 fail.
+
+%%%%%%%%%%%%%%%%%%% Helper Functions %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 load_kb :-
 write('Enter file name in single quotes, followed by a period: '),
