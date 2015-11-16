@@ -81,11 +81,13 @@ read_sent_helper(Words) :- peek_char(Ch),    % Eat whitespace
 read_sent_helper([Word|Words]) :-            % Read quoted words.
         peek_char(Ch), Ch = '"', !,
         read_word_to(ChWord), 
-        atom_chars(Word, ChWord), 
+        atom_chars(X, ChWord),
+        downcase_atom(X, Word),
         read_sent_helper(Words).
 read_sent_helper([Word|Words]) :-            % Read unquoted words.
         read_word(ChWord), 
-        atom_chars(Word, ChWord), 
+        atom_chars(X, ChWord),
+        downcase_atom(X, Word),
         read_sent_helper(Words).
 
 % Read a word taking the next character read as a delimiter.

@@ -71,7 +71,7 @@ do(load) :- load_kb, !.
 
 do(goal) :- goal, !.
 
-do(solve) :- solve, !.
+do(solve) :- solve_helper, !.
 
 do(rule) :- add_rule, !.
 
@@ -93,13 +93,29 @@ write('Enter file name in single quotes, followed by a period: '),
 read(X),
 load_rules(X),
 write('Understood: '), nl,
-list_rules_helper.
+list_rules,
+write('Rules loaded, goal set to "what is it".'), nl.
 
 goal :-
 write('Enter the new goal, followed by a period: '),
 set_top_goal(X),
 write('Understood goal: '),
 write_sentence(X), nl.
+
+% Fall back to the default gaol when the entered rule is invalid.
+goal :-
+write('Unable to understand goal, goal set to "what is it".'), nl.
+
+% If rule/2 are loaded and the rule that exists is not the top goal rule.
+solve_helper :-
+current_predicate(rule/2),
+rule(X,_),
+X \= top_goal(_),
+solve.
+
+% Fall back when no rule/2 are loaded.
+solve_helper :-
+write('Cannot solve, no rules are loaded.'), nl.
 
 add_rule :-
 write('Enter a new rule, followed by a period: '),
@@ -109,17 +125,19 @@ process(['rule:'|X]),
 write('Understood rule: '),
 write_sentence(X), nl.
 
+% If rule/2 are loaded and the rule that exists is not the top goal rule.
 list_rules :-
-write('Loaded rules:'), nl,
-list_rules_helper.
-
-% If rules are loaded.
-list_rules_helper :-
 current_predicate(rule/2),
+rule(X,_),
+X \= top_goal(_),
 list_rules_exist.
 
-% If rules are not loaded.
-list_rules_helper :-
+% Fall back when the only rule/2 loaded is the top goal rule.
+list_rules :-
+write('No rules are loaded'), nl.
+
+% If no rule/2 are loaded.
+list_rules :-
 not(current_predicate(rule/2)),
 write('No rules are loaded.'), nl.
 
