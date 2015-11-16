@@ -101,9 +101,9 @@ add_rule :-
 write('Enter a new rule, followed by a period: '),
 read_sentence(X),
 add_unknown_words(X),
-process(['rule:'|X]), nl,
-write('Rule loaded'), nl.
-% check line 444 in 312-pess
+process(['rule:'|X]),
+write('Understood rule: '),
+write_sentence(X), nl.
 
 list_rules :-
 write('Loaded rules:'), nl,
