@@ -129,7 +129,6 @@ list_rules_helper :-
 current_predicate(rule/2),
 rule(X,_),
 X \= top_goal(_),
-write('Loaded rules:'), nl,
 list_rules_exist.
 
 % Fall back when the only rule/2 loaded is the top goal rule.
