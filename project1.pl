@@ -71,7 +71,7 @@ do(load) :- load_kb, !.
 
 do(goal) :- goal, !.
 
-do(solve) :- solve, !.
+do(solve) :- solve_helper, !.
 
 do(rule) :- add_rule, !.
 
@@ -100,6 +100,17 @@ write('Enter the new goal, followed by a period: '),
 set_top_goal(X),
 write('Understood goal: '),
 write_sentence(X), nl.
+
+% If rule/2 are loaded and the rule that exists is not the top goal rule.
+solve_helper :-
+current_predicate(rule/2),
+rule(X,_),
+X \= top_goal(_),
+solve.
+
+% Fall back when no rule/2 are loaded.
+solve_helper :-
+write('Cannot solve, no rules are loaded.'), nl.
 
 add_rule :-
 write('Enter a new rule, followed by a period: '),
