@@ -359,7 +359,7 @@ load_rules(F) :-
         clear_db,
         see(F),
         load_rules,
-        write('rules loaded'),nl,
+        % write('rules loaded'),nl,
         seen, !.
 
 % Load rules from current input.
