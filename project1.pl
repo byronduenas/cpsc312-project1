@@ -77,6 +77,8 @@ do(rule) :- add_rule, !.
 
 do(list) :- list_rules, !.
 
+do(clear) :- clear_db, !.
+
 do(help) :- help, !.
 
 do(quit).
