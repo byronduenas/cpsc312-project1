@@ -31,14 +31,27 @@ word_line_morph :- read_word(X), morph_chars_bag([_|X],Y), write(Y).
 
 morph(W,M) :- morph_atoms([W], [[M|_]|_]).
 
-verb(W) :- morph(W,M), s(_,_,M,v,_,_), assertz(v(W)).
-noun(W) :- morph(W,M), s(_,_,M,n,_,_), assertz(n(W)).
-adverb(W) :- morph(W,M), s(_,_,M,r,_,_), assertz(adv(W)).
-adjective(W) :- morph(W,M), s(_,_,M,s,_,_), assertz(adj(W)).
-adjective(W) :- morph(W,M), s(_,_,M,a,_,_), assertz(adj(W)).
+verb(W) :- morph(W,M), s(_,_,M,v,_,_), \+v(W), assertz(v(W)).
+noun(W) :- morph(W,M), s(_,_,M,n,_,_), \+n(W), assertz(n(W)).
+adverb(W) :- morph(W,M), s(_,_,M,r,_,_), \+adv(W), assertz(adv(W)).
+adjective(W) :- morph(W,M), s(_,_,M,s,_,_), \+adj(W), assertz(adj(W)).
+adjective(W) :- morph(W,M), s(_,_,M,a,_,_), \+adj(W), assertz(adj(W)).
 
 add_unknown_words([]).
 add_unknown_words([Head|Tail]) :- add_word(Head), add_unknown_words(Tail).
+add_word(is) :- !.
+add_word(a) :- !.
+add_word(are) :- !.
+add_word(has) :- !.
+add_word(have) :- !.
+add_word(if) :- !.
+add_word(then) :- !.
+add_word(does) :- !.
+add_word(an) :- !.
+add_word(and) :- !.
+add_word(its) :- !.
+add_word(the) :- !.
+add_word(it) :- !.
 add_word(W) :- \+v(W), verb(W), fail.
 add_word(W) :- \+n(W), noun(W), fail.
 add_word(W) :- \+adv(W), adverb(W), fail.
