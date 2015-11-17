@@ -109,7 +109,7 @@ read(X),
 load_rules(X),
 write('Understood: '), nl,
 list_rules,
-write('Rules loaded, goal set to "what is it".'), nl.
+write('Rules loaded.'), nl.
 
 goal :-
 write('Enter the new goal, followed by a period: '),
