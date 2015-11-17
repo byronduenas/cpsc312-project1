@@ -387,7 +387,8 @@ process(['words:'|L]) :-     % Found words.
         assert_words(W), !. % Assert it (them, potentially) in the DB.
 
 process(['goal:'|L]) :-
-        goals(_, L, []), !.
+        clear_top_goal,
+        set_top_goal(_,L), !.
 
 process(L) :-
         write('trans error on:'),nl,
@@ -422,6 +423,9 @@ clear_db :-
         assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])).
          %% assertz(rule(top_goal([attr(does, X, L)]), [attr(does, X, L)])).
         %% assertz(rule(top_goal([attr(is_a, swan, [attr(is_like, 'brown', [])])]), [attr(is_a, swan, [attr(is_like, brown, [])])])).
+
+clear_top_goal :- retract(rule(top_goal(_), _)), !.
+clear_top_goal.
 
 set_top_goal(D) :- retract(rule(top_goal(_), _)), !, set_top_goal_helper(D).
 set_top_goal(D) :- set_top_goal_helper(D), ! .
