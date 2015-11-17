@@ -180,4 +180,5 @@ clear_db,
 write('Cleared rules database.'), nl.
 
 help :-
-write('Type help. load. goal. solve. rule. list. clear. or quit. at the prompt. Notice the period after each command!'), nl.
+write('Type help. load. goal. solve. rule. list. clear. or quit. at the prompt.'), nl,
+write('Notice the period after each command!'), nl.
