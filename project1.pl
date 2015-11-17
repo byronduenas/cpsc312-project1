@@ -39,10 +39,10 @@ adjective(W) :- morph(W,M), s(_,_,M,a,_,_), assertz(adj(W)).
 
 add_unknown_words([]).
 add_unknown_words([Head|Tail]) :- add_word(Head), add_unknown_words(Tail).
-add_word(W) :- \+v(W), verb(W).
-add_word(W) :- \+n(W), noun(W).
-add_word(W) :- \+adv(W), adverb(W).
-add_word(W) :- \+adj(W), adjective(W).
+add_word(W) :- \+v(W), verb(W), fail.
+add_word(W) :- \+n(W), noun(W), fail.
+add_word(W) :- \+adv(W), adverb(W), fail.
+add_word(W) :- \+adj(W), adjective(W), fail.
 add_word(_).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

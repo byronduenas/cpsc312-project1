@@ -428,8 +428,8 @@ set_top_goal(D) :- set_top_goal_helper(D), ! .
 set_top_goal_helper(D) :- read_sentence(B), add_unknown_words(B), set_top_goal(C,B), plain_gloss(C,D).
 set_top_goal_helper(_) :- assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])), fail.
 
-set_top_goal(C, B) :- B = [what,is,it], is_a_what(C).
-set_top_goal(C, B) :- B = [what,the,heck,is,that], is_a_what(C).
+set_top_goal(C, B) :- B = [what,is,it], is_a_what(C), !.
+set_top_goal(C, B) :- B = [what,the,heck,is,that], is_a_what(C), !.
 set_top_goal(C, B) :- B = [what,does,it,have], C = [attr(has_a, what, [])], assertz(rule(top_goal([attr(has_a, X, [])]), [attr(has_a, X, [])])), !. 
 set_top_goal(C, B) :- B = [what,does,it,X], C = [attr(does, X, what)], assertz(rule(top_goal([attr(does, X, T)]), [attr(does, X, T)])), !.
 set_top_goal(C, B) :- B = [it,is,a,X,what], C = [attr(is_a,what,[attr(is_like,X,[])])], assertz(rule(top_goal([attr(is_a,N,[attr(is_like,X,[])])]), [attr(is_a,N,[attr(is_like,X,[])])])), !.
