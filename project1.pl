@@ -134,7 +134,14 @@ list_rules_exist.
 
 % Fall back when the only rule/2 loaded is the top goal rule.
 list_rules :-
+current_predicate(rule/2),
+rule(X,_),
+X = top_goal(_),
 write('No rules are loaded'), nl.
+
+% Terminate rule listing cleanly.
+list_rules :-
+current_predicate(rule/2).
 
 % If no rule/2 are loaded.
 list_rules :-
