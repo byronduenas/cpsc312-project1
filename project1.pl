@@ -77,7 +77,7 @@ X == quit.
 greeting :-
 write('This is the CPSC312 Prolog Expert System Shell.'), nl,
 write('Based on Amzi\'s "native Prolog shell".'), nl,
-write('Type help, load, goal, solve, rule, list, or quit at the prompt.'), nl,
+write('Type help, load, goal, solve, rule, list, clear, or quit at the prompt.'), nl,
 write('Notice the period after each command!'), nl.
 
 do(load) :- load_kb, !.
@@ -90,7 +90,7 @@ do(rule) :- add_rule, !.
 
 do(list) :- list_rules, !.
 
-do(clear) :- clear_db, !.
+do(clear) :- clear_helper, !.
 
 do(help) :- help, !.
 
@@ -152,7 +152,7 @@ list_rules :-
 current_predicate(rule/2),
 rule(X,_),
 X = top_goal(_),
-write('No rules are loaded'), nl.
+write('No rules are loaded.'), nl.
 
 % Terminate rule listing cleanly.
 list_rules :-
@@ -175,5 +175,9 @@ list_rules_exist :-
 rule(X,_),
 X = top_goal(_).
 
+clear_helper :-
+clear_db,
+write('Cleared rules database.'), nl.
+
 help :-
-write('Type help. load. goal. solve. rule. list. or quit. at the prompt. Notice the period after each command!'), nl.
+write('Type help. load. goal. solve. rule. list. clear. or quit. at the prompt. Notice the period after each command!'), nl.
