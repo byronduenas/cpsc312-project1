@@ -386,6 +386,7 @@ process(['words:'|L]) :-     % Found words.
         %% bug(W),             % Print it for debugging.
         assert_words(W), !. % Assert it (them, potentially) in the DB.
 
+% Parses a list of words with a head 'goal:' and sets this as the new top goal.
 process(['goal:'|L]) :-
         clear_top_goal,
         set_top_goal(_,L), !.
@@ -419,32 +420,45 @@ assert_words([[W,adverb]|Ws]) :- assertz(adv(W)), assert_words(Ws).
 clear_db :-
         abolish(rule,2),
         dynamic(rule/2),
-        %% For now, top_goal is set manually.
         assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])).
-         %% assertz(rule(top_goal([attr(does, X, L)]), [attr(does, X, L)])).
-        %% assertz(rule(top_goal([attr(is_a, swan, [attr(is_like, 'brown', [])])]), [attr(is_a, swan, [attr(is_like, brown, [])])])).
 
+% Clears the current top_goal if it exists
 clear_top_goal :- retract(rule(top_goal(_), _)), !.
 clear_top_goal.
 
+% Clears the current top_goal if it exists and calls set_top_goal_helper/1
+% Passes up a gloss of the new top goal up
 set_top_goal(D) :- retract(rule(top_goal(_), _)), !, set_top_goal_helper(D).
 set_top_goal(D) :- set_top_goal_helper(D), ! .
+
+% Waits for user input to type new top goal, adds unknown words in the new top goal, sets the new top goal
+% Passes up a gloss of the new top goal up
 set_top_goal_helper(D) :- read_sentence(B), add_unknown_words(B), set_top_goal(C,B), plain_gloss(C,D).
 set_top_goal_helper(_) :- assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])), fail.
 
+% set_top_goal/2
+% First parameter is the "attr" structure of the new top goal which is later glossed by calling functions
+% Second parameter is the input from the user which is parsed and asserts a new top goal based upon grammar rules
+
+% calls is_a_what/1
 set_top_goal(C, B) :- B = [what,is,it], is_a_what(C), !.
 set_top_goal(C, B) :- B = [what,the,heck,is,that], is_a_what(C), !.
+% Passes up attr(has_a, what, [])and asserts a new top goal that matches pattern: attr(has_a, X, [])
 set_top_goal(C, B) :- B = [what,does,it,have], C = [attr(has_a, what, [])], assertz(rule(top_goal([attr(has_a, X, [])]), [attr(has_a, X, [])])), !. 
+% Passes up attr(does, X, what) and asserts a new top goal that matches pattern: attr(does, X, _)
 set_top_goal(C, B) :- B = [what,does,it,X], C = [attr(does, X, what)], assertz(rule(top_goal([attr(does, X, T)]), [attr(does, X, T)])), !.
+% Passes up attr(is_a,what,[attr(is_like,X,[])]) and asserts a new top goal that matches pattern: attr(is_a,_,[attr(is_like,X,[])])
 set_top_goal(C, B) :- B = [it,is,a,X,what], C = [attr(is_a,what,[attr(is_like,X,[])])], assertz(rule(top_goal([attr(is_a,N,[attr(is_like,X,[])])]), [attr(is_a,N,[attr(is_like,X,[])])])), !.
+
+% Changes "is it" to "it is" so that sentence/3 in 312-pess-grammar can parse it. Asserts a new goal based upon what is parsed.
 set_top_goal(A, B) :- B = [is,it|T], sentence(A,[it,is|T],[]), assertz(rule(top_goal(A), A)), !.
+% Removes redundant does in "does it" so that sentence/3 in 312-pess-grammar can parse it. Asserts a new goal based upon what is parsed.
 set_top_goal(A, B) :- B = [does,it|T], sentence(A,[it|T],[]), assertz(rule(top_goal(A), A)), !.
+% Parses sentence using sentence/3 in 312-pess-grammar. Asserts a new goal based upon what is parsed.
 set_top_goal(A, B) :- sentence(A,B,[]), assertz(rule(top_goal(A), A)), !.
 
+% Passes up "attr" structure and asserts a new top goal that matches pattern: attr(is_a, X, [])
 is_a_what(C) :- C = [attr(is_a, what, [])], assertz(rule(top_goal([attr(is_a, X, [])]), [attr(is_a, X, [])])), !.
-
-
-
 
 %% set_top_goal(G) :- .
 
@@ -457,8 +471,3 @@ bug(X) :- write(X).
 %% NOTE: to improve modularity, read_sentence/1 is defined in
 %% 312pess-grammar.pl (which allows that file to run independently of
 %% 312pess.pl).
-
-
-
-
-

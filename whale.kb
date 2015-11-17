@@ -237,6 +237,3 @@ then it is a hooked "n:fin whale".
 rule:
 if   it is a "n:pygmy right whale"
 then it has a tail.
-
-goal:
-it is a hooked what.
